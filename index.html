@@ -1,25 +1,24 @@
 <!doctype html>
 <html lang="en">
 <head>
- <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0b3158">
+<meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff">
   <title>BFS Punch | Project overview</title>
   <link rel="stylesheet" href="styles.css">
 </head>
-
+ 
 <body>
 <header class="topbar">
     <a class="brand" href="#" aria-label="Builders FirstSource home">
-      <img src="assets/builders-firstsource-inc-logo-vector.png" alt="Builders FirstSource">
-     
-    </a>
-   
+      <img src="assets/builders-firstsource-inc-logo-vector.png" alt="Builders FirstSource">    
+    </a>   
+    <button class="profile" type="button" aria-label="Open account menu"><span>MK</span><span class="profile-copy"><strong>Mike K.</strong><small>Field manager</small></span><b aria-hidden="true">⌄</b></button>
   </header>
- 
+
   <main>
     <section class="hero">
-    <div><p class="eyebrow">PROJECT OVERVIEW</p><h1>Welcome back, Mike</h1><p>Here’s what needs your attention today.</p></div>
+   <div class="project-details"><span class="project-mark" aria-hidden="true">MT</span><div><small>ACTIVE PROJECT</small><strong id="activeProject">Mueller Townhomes</strong><span>Phase 2 <i>•</i> Buildings 4–8</span></div></div>
       <div class="hero-date"><span>Today</span><strong id="currentDate">July 31, 2026</strong></div>
     </section>
 
@@ -28,20 +27,24 @@
       <button type="button" id="changeProject">Change</button>
     </section>
 
+     <section class="summary-grid" aria-label="Project status">
+      <div><span class="summary-icon open-icon" aria-hidden="true">!</span><p><strong id="summaryOpen">3</strong><small>Open items</small></p></div>
+      <div><span class="summary-icon urgent-icon" aria-hidden="true">↑</span><p><strong id="urgentCount">1</strong><small>Urgent</small></p></div>
+      <div><span class="summary-icon progress-icon" aria-hidden="true">✓</span><p><strong>8</strong><small>Closed today</small></p></div>
+    </section>
+   
     <section class="quick-actions" aria-label="Quick actions">
-        <div class="section-label"><span>Quick actions</span><small>Common field tasks</small></div>
-      <button class="primary-action" id="newPunch" type="button"><span>＋</span><div><strong>New punch item</strong><small>Add photos &amp; details</small></div><b>›</b></button>
-      <div class="secondary-actions">
-        <button id="cameraShortcut" type="button"><span>▣</span><strong>Take photo</strong></button>
-        <button id="shareReport" type="button"><span>↗</span><strong>Share report</strong></button>
+      <div class="section-label"><div><p class="section-kicker">FIELD TOOLS</p><h2>Quick actions</h2></div><small>Common field tasks</small></div>
+      <div class="action-grid">
+        <button class="primary-action" id="newPunch" type="button"><span class="action-icon">＋</span><span><strong>New punch item</strong><small>Add photos, details &amp; assignment</small></span><b>›</b></button>
+        <button id="cameraShortcut" type="button"><span class="action-icon">▣</span><span><strong>Take photo</strong><small>Capture an issue</small></span></button>
+        <button id="shareReport" type="button"><span class="action-icon">↗</span><span><strong>Share report</strong><small>Send an update</small></span></button>
       </div>
     </section>
 
     <section class="items-section">
-       <div class="section-heading"><div><div><p class="section-kicker">PUNCH LIST</p><h2>Open items</h2></div><span class="count" id="openCount">0</span></div><button id="filterButton" type="button">☷&nbsp; Filter</button></div>
-      <div class="filters" id="filters" hidden>
-        <button class="active" data-filter="all">All</button><button data-filter="urgent">Urgent</button><button data-filter="new">New</button><button data-filter="assigned">Assigned</button>
-      </div>
+     <div class="section-heading"><div><div><p class="section-kicker">PUNCH LIST</p><h2>Needs attention</h2></div><span class="count" id="openCount">0</span></div><button id="filterButton" type="button">☷&nbsp; Filter</button></div>
+      <div class="filters" id="filters" hidden><button class="active" data-filter="all">All</button><button data-filter="urgent">Urgent</button><button data-filter="new">New</button><button data-filter="assigned">Assigned</button></div>
       <div id="itemList" class="item-list"></div>
       <div class="empty" id="emptyState" hidden><span>✓</span><h3>No open items</h3><p>Add a punch item when you spot work that needs attention.</p></div>
       <button class="view-all" id="viewAll" type="button">View all punch items <span>›</span></button>
@@ -52,18 +55,7 @@
     <button class="active"><span>⌂</span>Home</button><button id="itemsNav"><span>☷</span>Items</button><button id="navAdd" class="nav-add"><span>＋</span><b>Add</b></button><button id="reportsNav"><span>▤</span>Reports</button><button id="teamNav"><span>♙</span>Team</button>
   </nav>
 
-  <dialog id="itemDialog">
-    <form id="itemForm" method="dialog">
-      <div class="dialog-head"><div><p class="eyebrow">NEW PUNCH ITEM</p><h2>Document the issue</h2></div><button class="close" value="cancel" type="submit" aria-label="Close">×</button></div>
-      <label class="photo-drop" for="photoInput"><input id="photoInput" type="file" accept="image/*" capture="environment" multiple><span class="camera">▣</span><strong>Add jobsite photos</strong><small>Take a photo or choose from your device</small></label>
-      <div id="photoPreview" class="photo-preview"></div>
-      <label>Title <input id="titleInput" required maxlength="80" placeholder="e.g. Replace damaged window"></label>
-      <label>Description <textarea id="descriptionInput" required rows="4" placeholder="Describe what needs to be corrected…"></textarea></label>
-      <div class="form-grid"><label>Location <input id="locationInput" required placeholder="Building / lot / room"></label><label>Priority <select id="priorityInput"><option>Normal</option><option>Urgent</option><option>Low</option></select></label></div>
-      <label>Assign to <input id="assigneeInput" required placeholder="Builder or subcontractor"></label>
-      <button class="save-button" type="submit" value="default">Create punch item</button>
-    </form>
-  </dialog>
+  <dialog id="itemDialog"><form id="itemForm" method="dialog"><div class="dialog-head"><div><p class="eyebrow">NEW PUNCH ITEM</p><h2>Document the issue</h2></div><button class="close" value="cancel" type="submit" aria-label="Close">×</button></div><label class="photo-drop" for="photoInput"><input id="photoInput" type="file" accept="image/*" capture="environment" multiple><span class="camera">▣</span><strong>Add jobsite photos</strong><small>Take a photo or choose from your device</small></label><div id="photoPreview" class="photo-preview"></div><label>Title <input id="titleInput" required maxlength="80" placeholder="e.g. Replace damaged window"></label><label>Description <textarea id="descriptionInput" required rows="4" placeholder="Describe what needs to be corrected…"></textarea></label><div class="form-grid"><label>Location <input id="locationInput" required placeholder="Building / lot / room"></label><label>Priority <select id="priorityInput"><option>Normal</option><option>Urgent</option><option>Low</option></select></label></div><label>Assign to <input id="assigneeInput" required placeholder="Builder or subcontractor"></label><button class="save-button" type="submit" value="default">Create punch item</button></form></dialog>
 
   <dialog id="infoDialog" class="small-dialog"><button class="close" type="button">×</button><h2>BFS Punch</h2><p>A field-first foundation for documenting, assigning, and sharing jobsite corrections. Data is saved on this device.</p></dialog>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
