@@ -30,6 +30,6 @@ $('#filterButton').onclick=()=>{$('#filters').hidden=!$('#filters').hidden};
 document.querySelectorAll('[data-filter]').forEach(button=>button.onclick=()=>{activeFilter=button.dataset.filter;document.querySelectorAll('[data-filter]').forEach(x=>x.classList.toggle('active',x===button));render()});
 $('#shareReport').onclick=shareReport;$('#reportsNav').onclick=shareReport;$('#viewAll').onclick=()=>{activeFilter='all';$('#filters').hidden=false;render();window.scrollTo({top:470,behavior:'smooth'})};
 $('#changeProject').onclick=()=>{const name=prompt('Active project name',$('#activeProject').textContent);if(name?.trim()){$('#activeProject').textContent=name.trim();showToast('Active project updated')}};
-$('#helpButton').onclick=()=>$('#infoDialog').showModal();$('#infoDialog .close').onclick=()=>$('#infoDialog').close();
+$('#infoDialog .close').onclick=()=>$('#infoDialog').close();
 $('#itemsNav').onclick=()=>window.scrollTo({top:470,behavior:'smooth'});$('#teamNav').onclick=()=>showToast('Team directory is ready for backend integration');
 render();
