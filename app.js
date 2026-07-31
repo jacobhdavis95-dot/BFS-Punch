@@ -14,7 +14,7 @@ function esc(value=''){const div=document.createElement('div');div.textContent=v
 function relativeTime(timestamp){const hours=Math.floor((Date.now()-timestamp)/3600000);if(hours<1)return 'Just now';if(hours<24)return `${hours}h ago`;const days=Math.floor(hours/24);return `${days}d ago`}
 function render(){
   const visible=items.filter(item=>activeFilter==='all'||(activeFilter==='urgent'?item.priority==='Urgent':item.status===activeFilter));
-  $('#openCount').textContent=items.length; $('#emptyState').hidden=visible.length>0;
+$('#openCount').textContent=items.length; $('#summaryOpen').textContent=items.length; $('#urgentCount').textContent=items.filter(item=>item.priority==='Urgent').length; $('#emptyState').hidden=visible.length>0;
   $('#itemList').innerHTML=visible.map(item=>`<article class="item-card" data-id="${item.id}"><div class="item-photo">${item.photos?.[0]?`<img src="${item.photos[0]}" alt="Photo for ${esc(item.title)}">`:'<span class="placeholder">▧</span>'}${item.photos?.length?`<span class="photo-count">▣ ${item.photos.length}</span>`:''}</div><div class="item-content"><div class="badges">${item.priority==='Urgent'?'<span class="badge urgent">Urgent</span>':''}<span class="badge ${item.status}">${item.status}</span></div><h3>${esc(item.title)}</h3><p>${esc(item.location)} · ${esc(item.description)}</p><div class="meta"><span><i class="avatar">${esc(item.initials)}</i>${esc(item.assignee)}</span><time>${relativeTime(item.created)}</time></div></div></article>`).join('');
 }
 function openForm(){selectedPhotos=[];$('#itemForm').reset();$('#photoPreview').innerHTML='';$('#itemDialog').showModal();setTimeout(()=>$('#titleInput').focus(),100)}
