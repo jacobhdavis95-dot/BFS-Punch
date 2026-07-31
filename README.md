@@ -43,4 +43,4 @@ Use `index.html` as the default document. There are no environment variables, de
 
 ## Current data model
 
-Punch items and resized photos are stored in the browser's `localStorage`. Data is therefore specific to a browser and device, is not shared between users, and can be lost when site data is cleared. A production multi-user deployment will need authentication, a database, and object storage for photos.
+Project details, punch-item details, and the report deadline are automatically saved in the browser's `localStorage`. Selected photos are previewed for the current session but are not stored. Data is therefore specific to a browser and device, is not shared between users, and can be lost when site data is cleared. A production multi-user deployment will need authentication, a database, and object storage for photos.
