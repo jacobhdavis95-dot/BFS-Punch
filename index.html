@@ -4,7 +4,7 @@
  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0b3158">
-  <title>BFS Punch | Field issue tracking</title>
+  <title>BFS Punch | Project overview</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -14,21 +14,24 @@
       <img src="assets/builders-firstsource-inc-logo-vector.png" alt="Builders FirstSource">
       <span class="brand-divider"></span><strong>PUNCH</strong>
     </a>
-    <button class="icon-button" id="helpButton" type="button" aria-label="About this app">?</button>
-  </header>
+   <div class="topbar-actions">
+      <button class="icon-button" id="helpButton" type="button" aria-label="About this app">?</button>
+      <span class="user-avatar" aria-label="Signed in as Mike Ross">MR</span>
+    </div>
 
   <main>
     <section class="hero">
-      <div><p class="eyebrow">FIELD WORKSPACE</p><h1>Good morning, Mike</h1><p>Capture it. Assign it. Keep the job moving.</p></div>
-      <div class="weather" aria-label="Current jobsite conditions"><span>☀</span><strong>78°</strong><small>Austin, TX</small></div>
+    <div><p class="eyebrow">PROJECT OVERVIEW</p><h1>Welcome back, Mike</h1><p>Here’s what needs your attention today.</p></div>
+      <div class="hero-date"><span>Today</span><strong id="currentDate">July 31, 2026</strong></div>
     </section>
 
     <section class="project-bar" aria-label="Active project">
-      <div><span class="pin">●</span><div><small>ACTIVE PROJECT</small><strong id="activeProject">Mueller Townhomes</strong><span>Phase 2 · Buildings 4–8</span></div></div>
+      <div><span class="project-mark" aria-hidden="true">M</span><div><small>ACTIVE PROJECT</small><strong id="activeProject">Mueller Townhomes</strong><span>Phase 2 · Buildings 4–8</span></div></div> 
       <button type="button" id="changeProject">Change</button>
     </section>
 
     <section class="quick-actions" aria-label="Quick actions">
+        <div class="section-label"><span>Quick actions</span><small>Common field tasks</small></div>
       <button class="primary-action" id="newPunch" type="button"><span>＋</span><div><strong>New punch item</strong><small>Add photos &amp; details</small></div><b>›</b></button>
       <div class="secondary-actions">
         <button id="cameraShortcut" type="button"><span>▣</span><strong>Take photo</strong></button>
@@ -37,7 +40,7 @@
     </section>
 
     <section class="items-section">
-      <div class="section-heading"><div><h2>Open items</h2><span class="count" id="openCount">0</span></div><button id="filterButton" type="button">☷&nbsp; Filter</button></div>
+       <div class="section-heading"><div><div><p class="section-kicker">PUNCH LIST</p><h2>Open items</h2></div><span class="count" id="openCount">0</span></div><button id="filterButton" type="button">☷&nbsp; Filter</button></div>
       <div class="filters" id="filters" hidden>
         <button class="active" data-filter="all">All</button><button data-filter="urgent">Urgent</button><button data-filter="new">New</button><button data-filter="assigned">Assigned</button>
       </div>
