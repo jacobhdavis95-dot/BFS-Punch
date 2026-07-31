@@ -7,6 +7,7 @@ const starterItems = [
 let items = loadItems(); let activeFilter = 'all'; let selectedPhotos = [];
 const $ = selector => document.querySelector(selector);
 
+$('#currentDate').textContent = new Intl.DateTimeFormat('en-US', {month:'long', day:'numeric', year:'numeric'}).format(new Date());
 function loadItems(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY)) || starterItems}catch{return starterItems}}
 function saveItems(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(items))}catch{showToast('Saved item, but photos exceed device storage')}}
 function esc(value=''){const div=document.createElement('div');div.textContent=value;return div.innerHTML}
