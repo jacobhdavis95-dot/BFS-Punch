@@ -1,64 +1,2491 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#112a46">
-  <title>BFS Punch | New field report</title>
-  <link rel="stylesheet" href="styles.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#b5121b">
+
+<title>BFS Raleigh | Field Punch</title>
+
+<style>
+/* =========================================================
+   BFS RALEIGH FIELD PUNCH
+   Mobile-first field punch list
+   ========================================================= */
+
+:root {
+    --red: #b5121b;
+    --red-dark: #8f0d14;
+    --black: #171717;
+    --charcoal: #292929;
+    --gray-900: #333333;
+    --gray-700: #555555;
+    --gray-500: #888888;
+    --gray-300: #d9d9d9;
+    --gray-200: #e9e9e9;
+    --gray-100: #f5f5f5;
+    --white: #ffffff;
+
+    --green: #218838;
+    --green-bg: #eaf7ed;
+    --orange: #e58a00;
+    --orange-bg: #fff4df;
+    --blue: #1f6fb2;
+    --blue-bg: #eaf3fb;
+
+    --shadow: 0 5px 20px rgba(0,0,0,.08);
+    --radius: 14px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f3f4f6;
+    color: var(--black);
+    -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+.app {
+    min-height: 100vh;
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.topbar {
+    background: var(--black);
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,.2);
+}
+
+.topbar-inner {
+    max-width: 1100px;
+    margin: auto;
+    padding: 13px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.brand-mark {
+    width: 44px;
+    height: 44px;
+    background: var(--red);
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 900;
+    font-size: 16px;
+    letter-spacing: -.5px;
+}
+
+.brand-title {
+    font-weight: 800;
+    font-size: 16px;
+}
+
+.brand-subtitle {
+    color: #bbb;
+    font-size: 11px;
+    margin-top: 2px;
+    text-transform: uppercase;
+    letter-spacing: .8px;
+}
+
+.header-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.icon-button {
+    border: 1px solid #444;
+    background: #262626;
+    color: white;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-weight: 700;
+}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.hero {
+    background:
+        linear-gradient(110deg, rgba(181,18,27,.97), rgba(120,8,15,.95));
+    color: white;
+}
+
+.hero-inner {
+    max-width: 1100px;
+    margin: auto;
+    padding: 25px 16px 30px;
+}
+
+.hero-eyebrow {
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.6px;
+    opacity: .8;
+}
+
+.hero h1 {
+    margin: 5px 0 5px;
+    font-size: clamp(27px, 6vw, 43px);
+    line-height: 1;
+}
+
+.hero p {
+    margin: 0;
+    opacity: .9;
+    font-size: 14px;
+}
+
+/* =========================================================
+   MAIN LAYOUT
+   ========================================================= */
+
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 18px 14px 100px;
+}
+
+.card {
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 16px;
+    overflow: hidden;
+}
+
+.card-header {
+    padding: 17px 18px;
+    border-bottom: 1px solid var(--gray-200);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.card-header h2 {
+    font-size: 16px;
+    margin: 0;
+}
+
+.card-header span {
+    font-size: 12px;
+    color: var(--gray-500);
+}
+
+.card-body {
+    padding: 18px;
+}
+
+/* =========================================================
+   FORMS
+   ========================================================= */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group.full {
+    grid-column: 1 / -1;
+}
+
+label {
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    color: #555;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    border: 1px solid #d4d7dc;
+    background: white;
+    border-radius: 9px;
+    padding: 12px;
+    outline: none;
+    color: #222;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--red);
+    box-shadow: 0 0 0 3px rgba(181,18,27,.09);
+}
+
+textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+/* =========================================================
+   SUMMARY
+   ========================================================= */
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.summary-box {
+    background: var(--gray-100);
+    border-radius: 11px;
+    padding: 14px 10px;
+    text-align: center;
+}
+
+.summary-number {
+    font-size: 27px;
+    font-weight: 900;
+}
+
+.summary-label {
+    margin-top: 2px;
+    color: #777;
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.summary-box.open .summary-number {
+    color: var(--red);
+}
+
+.summary-box.progress .summary-number {
+    color: var(--orange);
+}
+
+.summary-box.complete .summary-number {
+    color: var(--green);
+}
+
+.progress-bar {
+    margin-top: 15px;
+    background: #e6e6e6;
+    height: 8px;
+    border-radius: 50px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    width: 0%;
+    height: 100%;
+    background: var(--green);
+    transition: width .25s ease;
+}
+
+/* =========================================================
+   ACTIONS
+   ========================================================= */
+
+.action-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.btn {
+    border: none;
+    border-radius: 10px;
+    padding: 13px 16px;
+    font-weight: 800;
+    transition: .15s;
+}
+
+.btn:active {
+    transform: scale(.98);
+}
+
+.btn-primary {
+    background: var(--red);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--red-dark);
+}
+
+.btn-dark {
+    background: var(--black);
+    color: white;
+}
+
+.btn-light {
+    background: white;
+    border: 1px solid #ddd;
+    color: #222;
+}
+
+.btn-success {
+    background: var(--green);
+    color: white;
+}
+
+.btn-danger {
+    background: #fcebec;
+    color: var(--red);
+}
+
+.btn-block {
+    width: 100%;
+}
+
+/* =========================================================
+   FILTERS
+   ========================================================= */
+
+.filters {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 3px;
+    scrollbar-width: none;
+}
+
+.filters::-webkit-scrollbar {
+    display: none;
+}
+
+.filter-btn {
+    flex: 0 0 auto;
+    border: 1px solid #ddd;
+    background: white;
+    color: #555;
+    border-radius: 50px;
+    padding: 8px 13px;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.filter-btn.active {
+    background: var(--black);
+    color: white;
+    border-color: var(--black);
+}
+
+/* =========================================================
+   PUNCH ITEMS
+   ========================================================= */
+
+.empty-state {
+    padding: 50px 20px;
+    text-align: center;
+    color: #777;
+}
+
+.empty-icon {
+    font-size: 40px;
+    margin-bottom: 8px;
+}
+
+.empty-state strong {
+    display: block;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.punch-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.punch-item {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 13px;
+    overflow: hidden;
+    box-shadow: 0 3px 12px rgba(0,0,0,.04);
+}
+
+.punch-item-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 13px 14px;
+    border-bottom: 1px solid #eee;
+}
+
+.item-number {
+    font-weight: 900;
+    font-size: 13px;
+}
+
+.badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: flex-end;
+}
+
+.badge {
+    padding: 5px 8px;
+    border-radius: 50px;
+    font-size: 9px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: .3px;
+}
+
+.badge-open {
+    background: #fcebec;
+    color: var(--red);
+}
+
+.badge-progress {
+    background: var(--orange-bg);
+    color: #a45e00;
+}
+
+.badge-complete {
+    background: var(--green-bg);
+    color: var(--green);
+}
+
+.badge-critical {
+    background: var(--red);
+    color: white;
+}
+
+.badge-important {
+    background: var(--orange-bg);
+    color: #9b5800;
+}
+
+.badge-normal {
+    background: #eee;
+    color: #555;
+}
+
+.punch-content {
+    padding: 15px;
+}
+
+.punch-location {
+    font-size: 11px;
+    font-weight: 900;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.punch-description {
+    font-size: 15px;
+    line-height: 1.4;
+    font-weight: 700;
+}
+
+.punch-meta {
+    margin-top: 11px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px 15px;
+    font-size: 11px;
+    color: #666;
+}
+
+.photo-grid {
+    margin-top: 13px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+}
+
+.photo-grid img {
+    width: 100%;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.item-actions {
+    border-top: 1px solid #eee;
+    padding: 10px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 7px;
+}
+
+.item-actions button {
+    border: 0;
+    border-radius: 8px;
+    padding: 9px;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.action-edit {
+    background: #eee;
+}
+
+.action-complete {
+    background: var(--green-bg);
+    color: var(--green);
+}
+
+.action-delete {
+    background: #fcebec;
+    color: var(--red);
+}
+
+/* =========================================================
+   MODAL
+   ========================================================= */
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(0,0,0,.65);
+    padding: 15px;
+    overflow-y: auto;
+}
+
+.modal.active {
+    display: block;
+}
+
+.modal-panel {
+    max-width: 650px;
+    margin: 20px auto;
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.modal-header {
+    background: var(--black);
+    color: white;
+    padding: 17px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 17px;
+}
+
+.close-modal {
+    background: transparent;
+    border: 0;
+    color: white;
+    font-size: 25px;
+}
+
+.modal-body {
+    padding: 18px;
+}
+
+.modal-footer {
+    padding: 14px 18px 18px;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 8px;
+}
+
+/* =========================================================
+   PHOTO UPLOAD
+   ========================================================= */
+
+.photo-upload {
+    border: 2px dashed #ccc;
+    border-radius: 11px;
+    padding: 18px;
+    text-align: center;
+    background: #fafafa;
+    position: relative;
+}
+
+.photo-upload input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.photo-upload strong {
+    display: block;
+    margin-bottom: 4px;
+}
+
+.photo-upload span {
+    font-size: 11px;
+    color: #777;
+}
+
+.photo-preview {
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 7px;
+}
+
+.preview-wrapper {
+    position: relative;
+}
+
+.preview-wrapper img {
+    width: 100%;
+    height: 105px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.remove-photo {
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    width: 24px;
+    height: 24px;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(0,0,0,.75);
+    color: white;
+    font-size: 12px;
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.footer {
+    text-align: center;
+    color: #999;
+    font-size: 10px;
+    padding: 10px;
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 650px) {
+
+    .brand-title {
+        font-size: 14px;
+    }
+
+    .brand-subtitle {
+        font-size: 9px;
+    }
+
+    .header-actions .label {
+        display: none;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-group.full {
+        grid-column: auto;
+    }
+
+    .summary-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .action-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .photo-grid img {
+        height: 90px;
+    }
+
+    .modal {
+        padding: 0;
+    }
+
+    .modal-panel {
+        min-height: 100vh;
+        margin: 0;
+        border-radius: 0;
+    }
+}
+
+/* =========================================================
+   PRINT / PDF REPORT
+   ========================================================= */
+
+.print-report {
+    display: none;
+}
+
+@media print {
+
+    @page {
+        size: letter;
+        margin: .45in;
+    }
+
+    body {
+        background: white;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .topbar,
+    .hero,
+    .container,
+    .footer,
+    .modal {
+        display: none !important;
+    }
+
+    .print-report {
+        display: block !important;
+        color: #111;
+    }
+
+    .print-header {
+        border-bottom: 4px solid #b5121b;
+        padding-bottom: 12px;
+        margin-bottom: 15px;
+    }
+
+    .print-brand {
+        font-size: 25px;
+        font-weight: 900;
+    }
+
+    .print-brand span {
+        color: #b5121b;
+    }
+
+    .print-title {
+        font-size: 15px;
+        font-weight: 800;
+        margin-top: 4px;
+    }
+
+    .print-info {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        border: 1px solid #ccc;
+        margin-bottom: 15px;
+    }
+
+    .print-info div {
+        padding: 7px 9px;
+        border-bottom: 1px solid #ddd;
+        font-size: 10px;
+    }
+
+    .print-info strong {
+        display: block;
+        text-transform: uppercase;
+        font-size: 8px;
+        color: #777;
+        margin-bottom: 2px;
+    }
+
+    .print-summary {
+        display: flex;
+        gap: 20px;
+        padding: 9px 12px;
+        background: #f1f1f1;
+        margin-bottom: 15px;
+        font-size: 11px;
+    }
+
+    .print-item {
+        border: 1px solid #bbb;
+        margin-bottom: 12px;
+        page-break-inside: avoid;
+    }
+
+    .print-item-head {
+        padding: 7px 9px;
+        background: #eee;
+        display: flex;
+        justify-content: space-between;
+        font-size: 10px;
+        font-weight: 800;
+    }
+
+    .print-item-body {
+        padding: 9px;
+    }
+
+    .print-location {
+        color: #b5121b;
+        text-transform: uppercase;
+        font-size: 9px;
+        font-weight: 900;
+    }
+
+    .print-description {
+        font-size: 11px;
+        font-weight: 700;
+        margin-top: 4px;
+    }
+
+    .print-meta {
+        font-size: 9px;
+        color: #555;
+        margin-top: 7px;
+    }
+
+    .print-photos {
+        display: flex;
+        gap: 7px;
+        margin-top: 8px;
+    }
+
+    .print-photos img {
+        width: 31%;
+        height: 120px;
+        object-fit: cover;
+        border: 1px solid #ccc;
+    }
+
+    .print-footer {
+        margin-top: 25px;
+        padding-top: 8px;
+        border-top: 1px solid #aaa;
+        font-size: 8px;
+        color: #777;
+    }
+}
+
+</style>
 </head>
+
 <body>
-<header class="topbar">
-    <a class="brand" href="#" aria-label="Builders FirstSource home"><img src="assets/builders-firstsource-inc-logo-vector.png" alt="Builders FirstSource"></a>
-    <div class="top-actions"><span class="save-state" id="saveState"><i></i> Draft saved</span><button class="avatar" type="button" aria-label="Account menu">MK</button></div>
-  <main>
-     <section class="page-heading">
-      <div><p class="eyebrow">FIELD OPERATIONS</p><h1>Create punch report</h1><p>Document the project, capture every correction, and set a clear completion date.</p></div>
-      <div class="heading-date"><span>TODAY</span><strong id="currentDate"></strong></div>
+
+<div class="app">
+
+    <!-- HEADER -->
+    <header class="topbar">
+        <div class="topbar-inner">
+
+            <div class="brand">
+                <div class="brand-mark">BFS</div>
+
+                <div>
+                    <div class="brand-title">Raleigh Install Services</div>
+                    <div class="brand-subtitle">Field Punch</div>
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <button class="icon-button" onclick="saveProject()">
+                    💾 <span class="label">Save</span>
+                </button>
+
+                <button class="icon-button" onclick="generatePDF()">
+                    📄 <span class="label">PDF</span>
+                </button>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-inner">
+            <div class="hero-eyebrow">Builders FirstSource</div>
+            <h1>Field Punch</h1>
+            <p>Document. Assign. Correct. Close.</p>
+        </div>
     </section>
 
-   <form id="reportForm">
-      <section class="form-section" aria-labelledby="project-title">
-        <header class="section-header"><span class="step">01</span><div><p class="eyebrow">PROJECT DETAILS</p><h2 id="project-title">Where are we working?</h2><p>Add the job and customer information for this report.</p></div></header>
-        <div class="fields project-fields">
-          <label>Project manager <input id="manager" name="manager" autocomplete="name" required placeholder="Full name"></label>
-          <label>Neighborhood <input id="neighborhood" name="neighborhood" required placeholder="Community or development"></label>
-          <label>Lot / unit <input id="lot" name="lot" required placeholder="e.g. Lot 42"></label>
-          <label>Customer <input id="customer" name="customer" required placeholder="Customer or builder"></label>
-          <label class="wide">Project address <input id="address" name="address" autocomplete="street-address" placeholder="Street address, city, state"></label>
-          <label>Job number <input id="jobNumber" name="jobNumber" placeholder="Optional"></label>
+    <main class="container">
+
+        <!-- JOB INFORMATION -->
+        <section class="card">
+
+            <div class="card-header">
+                <h2>Job Information</h2>
+                <span>Project Details</span>
+            </div>
+
+            <div class="card-body">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label>Builder</label>
+                        <input id="builder" placeholder="Example: Drees Homes">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Community</label>
+                        <input id="community" placeholder="Example: Bristol Run">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Lot / Job #</label>
+                        <input id="lot" placeholder="Example: Lot 114">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Inspection Date</label>
+                        <input id="inspectionDate" type="date">
+                    </div>
+
+                    <div class="form-group full">
+                        <label>Job Address</label>
+                        <input id="address" placeholder="Street address">
+                    </div>
+
+                    <div class="form-group">
+                        <label>BFS Project Manager</label>
+                        <input id="projectManager" placeholder="Project manager">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Subcontractor</label>
+                        <input id="subcontractor" placeholder="Company / crew">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Install Type</label>
+                        <select id="installType">
+                            <option value="">Select Install Type</option>
+                            <option>Framing</option>
+                            <option>Windows / Doors</option>
+                            <option>Interior Trim</option>
+                            <option>Decks</option>
+                            <option>Service</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Builder Contact</label>
+                        <input id="builderContact" placeholder="Builder contact">
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SUMMARY -->
+        <section class="card">
+
+            <div class="card-header">
+                <h2>Punch Summary</h2>
+                <span id="completionText">0% Complete</span>
+            </div>
+
+            <div class="card-body">
+
+                <div class="summary-grid">
+
+                    <div class="summary-box">
+                        <div class="summary-number" id="totalCount">0</div>
+                        <div class="summary-label">Total</div>
+                    </div>
+
+                    <div class="summary-box open">
+                        <div class="summary-number" id="openCount">0</div>
+                        <div class="summary-label">Open</div>
+                    </div>
+
+                    <div class="summary-box progress">
+                        <div class="summary-number" id="progressCount">0</div>
+                        <div class="summary-label">In Progress</div>
+                    </div>
+
+                    <div class="summary-box complete">
+                        <div class="summary-number" id="completeCount">0</div>
+                        <div class="summary-label">Complete</div>
+                    </div>
+
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ACTIONS -->
+        <div class="action-grid">
+
+            <button class="btn btn-primary" onclick="openAddModal()">
+                ＋ Add Punch Item
+            </button>
+
+            <button class="btn btn-dark" onclick="generatePDF()">
+                📄 Generate PDF
+            </button>
+
         </div>
-      </section>
 
-       <section class="form-section" aria-labelledby="items-title">
-        <header class="section-header items-header"><span class="step">02</span><div><p class="eyebrow">PUNCH ITEMS</p><h2 id="items-title">What needs attention?</h2><p>Add a card for every room, item, or correction needed.</p></div><span class="item-total" id="itemTotal">1 item</span></header>
-        <div id="itemsList" class="punch-items"></div>
-        <button class="add-item" id="addItem" type="button"><span>＋</span><strong>Add another punch item</strong><small>Room, photos, details &amp; trade</small></button>
-      </section>
+        <!-- PUNCH LIST -->
+        <section class="card">
 
-  <section class="form-section deadline-section" aria-labelledby="deadline-title">
-        <header class="section-header"><span class="step">03</span><div><p class="eyebrow">DEADLINE</p><h2 id="deadline-title">When should this be complete?</h2><p>Set one clear target date for the team.</p></div></header>
-        <div class="deadline-card"><div class="calendar-icon" aria-hidden="true">▦</div><label>Complete by <input id="dueDate" name="dueDate" type="date" required></label><label>Final notes <textarea id="finalNotes" name="finalNotes" rows="2" placeholder="Access notes, inspection timing, or team instructions"></textarea></label></div>
-      </section>  
+            <div class="card-header">
+                <h2>Punch Items</h2>
 
- <footer class="form-footer"><div><strong>Ready to send?</strong><span>Review the report before creating it.</span></div><button class="secondary" id="clearDraft" type="button">Clear draft</button><button class="primary" type="submit">Create punch report <span>→</span></button></footer>
-    </form>
- <template id="itemTemplate">
-    <article class="punch-card">
-      <div class="card-top"><div><span class="item-number">ITEM 01</span><h3>Correction details</h3></div><button class="remove-item" type="button" aria-label="Remove punch item">×</button></div>
-      <div class="item-layout">
-        <label class="photo-upload"><input class="photo-input" type="file" accept="image/*" multiple><span class="photo-empty"><b>＋</b><strong>Add photos</strong><small>Take or upload up to 5</small></span><span class="photo-previews"></span></label>
-        <div class="item-fields">
-          <div class="fields compact"><label>Item / room <input class="item-name" required placeholder="e.g. Kitchen window"></label><label>Location <input class="item-location" required placeholder="Room, floor, or elevation"></label></div>
-          <label>Details of work needed <textarea class="item-details" required rows="3" placeholder="Describe the issue and exactly what needs to be completed"></textarea></label>
-          <div class="fields compact three"><label>Assigned trade <input class="item-trade" placeholder="e.g. Framing"></label><label>Priority <select class="item-priority"><option>Standard</option><option>Urgent</option><option>Low</option></select></label><label>Status <select class="item-status"><option>Open</option><option>In progress</option><option>Ready to inspect</option></select></label></div>
+                <div class="filters">
+                    <button class="filter-btn active"
+                            onclick="setFilter('All', this)">
+                        All
+                    </button>
+
+                    <button class="filter-btn"
+                            onclick="setFilter('Open', this)">
+                        Open
+                    </button>
+
+                    <button class="filter-btn"
+                            onclick="setFilter('In Progress', this)">
+                        In Progress
+                    </button>
+
+                    <button class="filter-btn"
+                            onclick="setFilter('Complete', this)">
+                        Complete
+                    </button>
+                </div>
+            </div>
+
+            <div class="card-body">
+
+                <div id="emptyState" class="empty-state">
+                    <div class="empty-icon">📋</div>
+                    <strong>No punch items yet</strong>
+                    Add your first field observation to begin the punch list.
+                </div>
+
+                <div id="punchList" class="punch-list"></div>
+
+            </div>
+
+        </section>
+
+        <button class="btn btn-light btn-block"
+                onclick="newProject()">
+            Start New Punch List
+        </button>
+
+    </main>
+
+    <div class="footer">
+        Builders FirstSource • Raleigh Install Services • Field Punch
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     ADD / EDIT PUNCH ITEM MODAL
+     ===================================================== -->
+
+<div class="modal" id="itemModal">
+
+    <div class="modal-panel">
+
+        <div class="modal-header">
+
+            <h2 id="modalTitle">Add Punch Item</h2>
+
+            <button class="close-modal"
+                    onclick="closeModal()">
+                ×
+            </button>
+
         </div>
-      </div>
-    </article>
-  </template>
 
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script src="app.js"></script>
- 
+        <div class="modal-body">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Area / Location</label>
+
+                    <input id="itemLocation"
+                           placeholder="Example: Bedroom 2">
+                </div>
+
+                <div class="form-group">
+                    <label>Category</label>
+
+                    <select id="itemCategory">
+                        <option>Framing</option>
+                        <option>Trusses</option>
+                        <option>Roof</option>
+                        <option>Sheathing</option>
+                        <option>Windows</option>
+                        <option>Doors</option>
+                        <option>Interior Trim</option>
+                        <option>Stairs</option>
+                        <option>Deck</option>
+                        <option>Material</option>
+                        <option>Safety</option>
+                        <option>Service</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group full">
+                    <label>Description</label>
+
+                    <textarea id="itemDescription"
+                              placeholder="Describe what needs to be corrected..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Responsible Party</label>
+
+                    <select id="itemResponsible">
+                        <option>Subcontractor</option>
+                        <option>BFS</option>
+                        <option>Builder</option>
+                        <option>Material Supplier</option>
+                        <option>Engineer</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Priority</label>
+
+                    <select id="itemPriority">
+                        <option>Normal</option>
+                        <option>Important</option>
+                        <option>Critical</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Status</label>
+
+                    <select id="itemStatus">
+                        <option>Open</option>
+                        <option>In Progress</option>
+                        <option>Complete</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Due Date</label>
+
+                    <input id="itemDueDate"
+                           type="date">
+                </div>
+
+                <div class="form-group full">
+
+                    <label>Photos</label>
+
+                    <div class="photo-upload">
+
+                        <strong>📷 Take or Add Photos</strong>
+
+                        <span>
+                            Tap here to open your camera or photo library
+                        </span>
+
+                        <input
+                            id="photoInput"
+                            type="file"
+                            accept="image/*"
+                            capture="environment"
+                            multiple
+                            onchange="handlePhotos(event)"
+                        >
+
+                    </div>
+
+                    <div id="photoPreview"
+                         class="photo-preview">
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="modal-footer">
+
+            <button class="btn btn-light"
+                    onclick="closeModal()">
+                Cancel
+            </button>
+
+            <button class="btn btn-primary"
+                    onclick="savePunchItem()">
+                Save Punch Item
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     PRINT REPORT
+     ===================================================== -->
+
+<div id="printReport" class="print-report"></div>
+
+
+<script>
+
+/* =========================================================
+   APPLICATION STATE
+   ========================================================= */
+
+let punchItems = [];
+let currentPhotos = [];
+let editingId = null;
+let currentFilter = "All";
+
+const storageKey = "bfsRaleighFieldPunch";
+
+/* =========================================================
+   INITIALIZE
+   ========================================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    setDefaultDate();
+    loadProject();
+    renderPunchItems();
+
+    document.querySelectorAll(
+        "#builder, #community, #lot, #inspectionDate, #address, " +
+        "#projectManager, #subcontractor, #installType, #builderContact"
+    ).forEach(element => {
+
+        element.addEventListener("change", autoSave);
+        element.addEventListener("input", autoSave);
+
+    });
+
+});
+
+
+function setDefaultDate() {
+
+    const dateInput = document.getElementById("inspectionDate");
+
+    if (!dateInput.value) {
+
+        const today = new Date();
+        const formatted =
+            today.getFullYear() + "-" +
+            String(today.getMonth() + 1).padStart(2, "0") + "-" +
+            String(today.getDate()).padStart(2, "0");
+
+        dateInput.value = formatted;
+    }
+
+}
+
+
+/* =========================================================
+   JOB INFORMATION
+   ========================================================= */
+
+function getJobInfo() {
+
+    return {
+
+        builder:
+            document.getElementById("builder").value,
+
+        community:
+            document.getElementById("community").value,
+
+        lot:
+            document.getElementById("lot").value,
+
+        inspectionDate:
+            document.getElementById("inspectionDate").value,
+
+        address:
+            document.getElementById("address").value,
+
+        projectManager:
+            document.getElementById("projectManager").value,
+
+        subcontractor:
+            document.getElementById("subcontractor").value,
+
+        installType:
+            document.getElementById("installType").value,
+
+        builderContact:
+            document.getElementById("builderContact").value
+
+    };
+
+}
+
+
+function populateJobInfo(info = {}) {
+
+    document.getElementById("builder").value =
+        info.builder || "";
+
+    document.getElementById("community").value =
+        info.community || "";
+
+    document.getElementById("lot").value =
+        info.lot || "";
+
+    document.getElementById("inspectionDate").value =
+        info.inspectionDate || "";
+
+    document.getElementById("address").value =
+        info.address || "";
+
+    document.getElementById("projectManager").value =
+        info.projectManager || "";
+
+    document.getElementById("subcontractor").value =
+        info.subcontractor || "";
+
+    document.getElementById("installType").value =
+        info.installType || "";
+
+    document.getElementById("builderContact").value =
+        info.builderContact || "";
+
+}
+
+
+/* =========================================================
+   MODAL
+   ========================================================= */
+
+function openAddModal() {
+
+    editingId = null;
+    currentPhotos = [];
+
+    document.getElementById("modalTitle").textContent =
+        "Add Punch Item";
+
+    document.getElementById("itemLocation").value = "";
+    document.getElementById("itemDescription").value = "";
+    document.getElementById("itemCategory").value = "Framing";
+    document.getElementById("itemResponsible").value = "Subcontractor";
+    document.getElementById("itemPriority").value = "Normal";
+    document.getElementById("itemStatus").value = "Open";
+    document.getElementById("itemDueDate").value = "";
+
+    renderPhotoPreview();
+
+    document.getElementById("itemModal")
+        .classList.add("active");
+
+}
+
+
+function closeModal() {
+
+    document.getElementById("itemModal")
+        .classList.remove("active");
+
+}
+
+
+/* =========================================================
+   PHOTOS
+   ========================================================= */
+
+function handlePhotos(event) {
+
+    const files = Array.from(event.target.files);
+
+    files.forEach(file => {
+
+        if (!file.type.startsWith("image/")) {
+            return;
+        }
+
+        compressImage(file, compressed => {
+
+            currentPhotos.push(compressed);
+            renderPhotoPreview();
+
+        });
+
+    });
+
+    event.target.value = "";
+
+}
+
+
+function compressImage(file, callback) {
+
+    const reader = new FileReader();
+
+    reader.onload = event => {
+
+        const image = new Image();
+
+        image.onload = () => {
+
+            const maxWidth = 1200;
+
+            let width = image.width;
+            let height = image.height;
+
+            if (width > maxWidth) {
+
+                height =
+                    height * (maxWidth / width);
+
+                width = maxWidth;
+
+            }
+
+            const canvas =
+                document.createElement("canvas");
+
+            canvas.width = width;
+            canvas.height = height;
+
+            const ctx =
+                canvas.getContext("2d");
+
+            ctx.drawImage(
+                image,
+                0,
+                0,
+                width,
+                height
+            );
+
+            const compressed =
+                canvas.toDataURL(
+                    "image/jpeg",
+                    .72
+                );
+
+            callback(compressed);
+
+        };
+
+        image.src = event.target.result;
+
+    };
+
+    reader.readAsDataURL(file);
+
+}
+
+
+function renderPhotoPreview() {
+
+    const container =
+        document.getElementById("photoPreview");
+
+    container.innerHTML = "";
+
+    currentPhotos.forEach((photo, index) => {
+
+        const wrapper =
+            document.createElement("div");
+
+        wrapper.className =
+            "preview-wrapper";
+
+        wrapper.innerHTML = `
+            <img src="${photo}">
+            <button
+                class="remove-photo"
+                onclick="removePhoto(${index})">
+                ×
+            </button>
+        `;
+
+        container.appendChild(wrapper);
+
+    });
+
+}
+
+
+function removePhoto(index) {
+
+    currentPhotos.splice(index, 1);
+    renderPhotoPreview();
+
+}
+
+
+/* =========================================================
+   SAVE PUNCH ITEM
+   ========================================================= */
+
+function savePunchItem() {
+
+    const description =
+        document.getElementById(
+            "itemDescription"
+        ).value.trim();
+
+    if (!description) {
+
+        alert(
+            "Please enter a description for the punch item."
+        );
+
+        return;
+    }
+
+    const item = {
+
+        id:
+            editingId ||
+            Date.now(),
+
+        location:
+            document.getElementById(
+                "itemLocation"
+            ).value.trim(),
+
+        category:
+            document.getElementById(
+                "itemCategory"
+            ).value,
+
+        description:
+            description,
+
+        responsible:
+            document.getElementById(
+                "itemResponsible"
+            ).value,
+
+        priority:
+            document.getElementById(
+                "itemPriority"
+            ).value,
+
+        status:
+            document.getElementById(
+                "itemStatus"
+            ).value,
+
+        dueDate:
+            document.getElementById(
+                "itemDueDate"
+            ).value,
+
+        photos:
+            [...currentPhotos],
+
+        created:
+            new Date().toISOString()
+
+    };
+
+
+    if (editingId) {
+
+        const index =
+            punchItems.findIndex(
+                x => x.id === editingId
+            );
+
+        if (index !== -1) {
+
+            item.created =
+                punchItems[index].created;
+
+            punchItems[index] = item;
+
+        }
+
+    } else {
+
+        punchItems.push(item);
+
+    }
+
+    saveProject();
+    renderPunchItems();
+    closeModal();
+
+}
+
+
+/* =========================================================
+   EDIT ITEM
+   ========================================================= */
+
+function editItem(id) {
+
+    const item =
+        punchItems.find(
+            x => x.id === id
+        );
+
+    if (!item) return;
+
+    editingId = id;
+
+    document.getElementById("modalTitle")
+        .textContent =
+        "Edit Punch Item";
+
+    document.getElementById(
+        "itemLocation"
+    ).value =
+        item.location || "";
+
+    document.getElementById(
+        "itemCategory"
+    ).value =
+        item.category;
+
+    document.getElementById(
+        "itemDescription"
+    ).value =
+        item.description;
+
+    document.getElementById(
+        "itemResponsible"
+    ).value =
+        item.responsible;
+
+    document.getElementById(
+        "itemPriority"
+    ).value =
+        item.priority;
+
+    document.getElementById(
+        "itemStatus"
+    ).value =
+        item.status;
+
+    document.getElementById(
+        "itemDueDate"
+    ).value =
+        item.dueDate || "";
+
+    currentPhotos =
+        [...(item.photos || [])];
+
+    renderPhotoPreview();
+
+    document.getElementById(
+        "itemModal"
+    ).classList.add("active");
+
+}
+
+
+/* =========================================================
+   COMPLETE ITEM
+   ========================================================= */
+
+function toggleComplete(id) {
+
+    const item =
+        punchItems.find(
+            x => x.id === id
+        );
+
+    if (!item) return;
+
+    if (item.status === "Complete") {
+
+        item.status = "Open";
+
+    } else {
+
+        item.status = "Complete";
+
+    }
+
+    saveProject();
+    renderPunchItems();
+
+}
+
+
+/* =========================================================
+   DELETE ITEM
+   ========================================================= */
+
+function deleteItem(id) {
+
+    const confirmed =
+        confirm(
+            "Delete this punch item?"
+        );
+
+    if (!confirmed) return;
+
+    punchItems =
+        punchItems.filter(
+            x => x.id !== id
+        );
+
+    saveProject();
+    renderPunchItems();
+
+}
+
+
+/* =========================================================
+   FILTERS
+   ========================================================= */
+
+function setFilter(filter, button) {
+
+    currentFilter = filter;
+
+    document
+        .querySelectorAll(".filter-btn")
+        .forEach(btn =>
+            btn.classList.remove("active")
+        );
+
+    button.classList.add("active");
+
+    renderPunchItems();
+
+}
+
+
+/* =========================================================
+   RENDER ITEMS
+   ========================================================= */
+
+function renderPunchItems() {
+
+    const container =
+        document.getElementById(
+            "punchList"
+        );
+
+    const emptyState =
+        document.getElementById(
+            "emptyState"
+        );
+
+    container.innerHTML = "";
+
+    const filtered =
+        currentFilter === "All"
+        ? punchItems
+        : punchItems.filter(
+            item =>
+                item.status === currentFilter
+        );
+
+
+    if (filtered.length === 0) {
+
+        emptyState.style.display = "block";
+
+    } else {
+
+        emptyState.style.display = "none";
+
+    }
+
+
+    filtered.forEach(item => {
+
+        const actualIndex =
+            punchItems.findIndex(
+                x => x.id === item.id
+            ) + 1;
+
+        const element =
+            document.createElement("div");
+
+        element.className =
+            "punch-item";
+
+
+        const statusClass =
+            item.status === "Complete"
+            ? "badge-complete"
+            : item.status === "In Progress"
+            ? "badge-progress"
+            : "badge-open";
+
+
+        const priorityClass =
+            item.priority === "Critical"
+            ? "badge-critical"
+            : item.priority === "Important"
+            ? "badge-important"
+            : "badge-normal";
+
+
+        const photos =
+            (item.photos || [])
+            .map(photo =>
+                `<img src="${photo}">`
+            )
+            .join("");
+
+
+        element.innerHTML = `
+
+            <div class="punch-item-top">
+
+                <div class="item-number">
+                    ITEM ${String(actualIndex).padStart(2,"0")}
+                </div>
+
+                <div class="badges">
+
+                    <span class="badge ${priorityClass}">
+                        ${escapeHTML(item.priority)}
+                    </span>
+
+                    <span class="badge ${statusClass}">
+                        ${escapeHTML(item.status)}
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="punch-content">
+
+                <div class="punch-location">
+                    ${escapeHTML(item.category)}
+                    ${item.location
+                        ? " • " + escapeHTML(item.location)
+                        : ""}
+                </div>
+
+                <div class="punch-description">
+                    ${escapeHTML(item.description)}
+                </div>
+
+                <div class="punch-meta">
+
+                    <span>
+                        <strong>Responsible:</strong>
+                        ${escapeHTML(item.responsible)}
+                    </span>
+
+                    ${
+                        item.dueDate
+                        ? `
+                        <span>
+                            <strong>Due:</strong>
+                            ${formatDate(item.dueDate)}
+                        </span>
+                        `
+                        : ""
+                    }
+
+                </div>
+
+                ${
+                    photos
+                    ? `
+                    <div class="photo-grid">
+                        ${photos}
+                    </div>
+                    `
+                    : ""
+                }
+
+            </div>
+
+
+            <div class="item-actions">
+
+                <button
+                    class="action-edit"
+                    onclick="editItem(${item.id})">
+                    ✏️ Edit
+                </button>
+
+                <button
+                    class="action-complete"
+                    onclick="toggleComplete(${item.id})">
+                    ${
+                        item.status === "Complete"
+                        ? "↩ Reopen"
+                        : "✓ Complete"
+                    }
+                </button>
+
+                <button
+                    class="action-delete"
+                    onclick="deleteItem(${item.id})">
+                    🗑 Delete
+                </button>
+
+            </div>
+
+        `;
+
+        container.appendChild(element);
+
+    });
+
+
+    updateSummary();
+
+}
+
+
+/* =========================================================
+   SUMMARY
+   ========================================================= */
+
+function updateSummary() {
+
+    const total =
+        punchItems.length;
+
+    const open =
+        punchItems.filter(
+            x => x.status === "Open"
+        ).length;
+
+    const progress =
+        punchItems.filter(
+            x => x.status === "In Progress"
+        ).length;
+
+    const complete =
+        punchItems.filter(
+            x => x.status === "Complete"
+        ).length;
+
+
+    document.getElementById(
+        "totalCount"
+    ).textContent = total;
+
+    document.getElementById(
+        "openCount"
+    ).textContent = open;
+
+    document.getElementById(
+        "progressCount"
+    ).textContent = progress;
+
+    document.getElementById(
+        "completeCount"
+    ).textContent = complete;
+
+
+    const percent =
+        total === 0
+        ? 0
+        : Math.round(
+            (complete / total) * 100
+        );
+
+
+    document.getElementById(
+        "completionText"
+    ).textContent =
+        percent + "% Complete";
+
+    document.getElementById(
+        "progressFill"
+    ).style.width =
+        percent + "%";
+
+}
+
+
+/* =========================================================
+   LOCAL STORAGE
+   ========================================================= */
+
+function saveProject(showMessage = false) {
+
+    try {
+
+        const data = {
+
+            jobInfo:
+                getJobInfo(),
+
+            punchItems:
+                punchItems,
+
+            saved:
+                new Date().toISOString()
+
+        };
+
+        localStorage.setItem(
+            storageKey,
+            JSON.stringify(data)
+        );
+
+        if (showMessage) {
+
+            alert(
+                "Punch list saved on this device."
+            );
+
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "The punch list could not be saved. Large photo files may have exceeded browser storage."
+        );
+
+    }
+
+}
+
+
+function autoSave() {
+
+    saveProject(false);
+
+}
+
+
+function loadProject() {
+
+    try {
+
+        const saved =
+            localStorage.getItem(
+                storageKey
+            );
+
+        if (!saved) return;
+
+        const data =
+            JSON.parse(saved);
+
+        populateJobInfo(
+            data.jobInfo || {}
+        );
+
+        punchItems =
+            data.punchItems || [];
+
+    } catch (error) {
+
+        console.error(
+            "Unable to load saved punch list.",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   NEW PROJECT
+   ========================================================= */
+
+function newProject() {
+
+    if (
+        !confirm(
+            "Start a new punch list? This will clear the current saved project from this device."
+        )
+    ) {
+        return;
+    }
+
+    localStorage.removeItem(
+        storageKey
+    );
+
+    punchItems = [];
+
+    populateJobInfo({});
+
+    setDefaultDate();
+
+    renderPunchItems();
+
+}
+
+
+/* =========================================================
+   PDF / PRINT REPORT
+   ========================================================= */
+
+function generatePDF() {
+
+    if (punchItems.length === 0) {
+
+        alert(
+            "Add at least one punch item before generating the report."
+        );
+
+        return;
+    }
+
+    const info =
+        getJobInfo();
+
+    const total =
+        punchItems.length;
+
+    const complete =
+        punchItems.filter(
+            x => x.status === "Complete"
+        ).length;
+
+    const open =
+        punchItems.filter(
+            x => x.status !== "Complete"
+        ).length;
+
+
+    let itemHTML = "";
+
+
+    punchItems.forEach(
+        (item, index) => {
+
+        const photos =
+            (item.photos || [])
+            .map(photo =>
+                `<img src="${photo}">`
+            )
+            .join("");
+
+
+        itemHTML += `
+
+            <div class="print-item">
+
+                <div class="print-item-head">
+
+                    <span>
+                        ITEM ${String(index + 1).padStart(2,"0")}
+                        •
+                        ${escapeHTML(item.category)}
+                    </span>
+
+                    <span>
+                        ${escapeHTML(item.status)}
+                    </span>
+
+                </div>
+
+                <div class="print-item-body">
+
+                    <div class="print-location">
+                        ${
+                            escapeHTML(
+                                item.location || "General"
+                            )
+                        }
+                    </div>
+
+                    <div class="print-description">
+                        ${escapeHTML(item.description)}
+                    </div>
+
+                    <div class="print-meta">
+
+                        <strong>Responsible:</strong>
+                        ${escapeHTML(item.responsible)}
+
+                        &nbsp;&nbsp;
+
+                        <strong>Priority:</strong>
+                        ${escapeHTML(item.priority)}
+
+                        ${
+                            item.dueDate
+                            ? `
+                            &nbsp;&nbsp;
+                            <strong>Due:</strong>
+                            ${formatDate(item.dueDate)}
+                            `
+                            : ""
+                        }
+
+                    </div>
+
+                    ${
+                        photos
+                        ? `
+                        <div class="print-photos">
+                            ${photos}
+                        </div>
+                        `
+                        : ""
+                    }
+
+                </div>
+
+            </div>
+
+        `;
+
+    });
+
+
+    document.getElementById(
+        "printReport"
+    ).innerHTML = `
+
+        <div class="print-header">
+
+            <div class="print-brand">
+                <span>BFS</span>
+                Raleigh Install Services
+            </div>
+
+            <div class="print-title">
+                FIELD PUNCH LIST
+            </div>
+
+        </div>
+
+
+        <div class="print-info">
+
+            ${printInfo(
+                "Builder",
+                info.builder
+            )}
+
+            ${printInfo(
+                "Community",
+                info.community
+            )}
+
+            ${printInfo(
+                "Lot / Job #",
+                info.lot
+            )}
+
+            ${printInfo(
+                "Inspection Date",
+                formatDate(info.inspectionDate)
+            )}
+
+            ${printInfo(
+                "Address",
+                info.address
+            )}
+
+            ${printInfo(
+                "Install Type",
+                info.installType
+            )}
+
+            ${printInfo(
+                "BFS Project Manager",
+                info.projectManager
+            )}
+
+            ${printInfo(
+                "Subcontractor",
+                info.subcontractor
+            )}
+
+        </div>
+
+
+        <div class="print-summary">
+
+            <strong>
+                ${total} Total Items
+            </strong>
+
+            <strong>
+                ${open} Open
+            </strong>
+
+            <strong>
+                ${complete} Complete
+            </strong>
+
+        </div>
+
+
+        ${itemHTML}
+
+
+        <div class="print-footer">
+
+            Builders FirstSource • Raleigh Install Services
+
+            <br>
+
+            This report documents field observations
+            at the time of inspection. Items are subject
+            to verification upon completion.
+
+        </div>
+
+    `;
+
+
+    setTimeout(
+        () => window.print(),
+        250
+    );
+
+}
+
+
+function printInfo(label, value) {
+
+    return `
+
+        <div>
+
+            <strong>
+                ${escapeHTML(label)}
+            </strong>
+
+            ${escapeHTML(value || "—")}
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================================================
+   UTILITIES
+   ========================================================= */
+
+function formatDate(dateString) {
+
+    if (!dateString) {
+        return "";
+    }
+
+    const parts =
+        dateString.split("-");
+
+    if (parts.length !== 3) {
+        return dateString;
+    }
+
+    return (
+        parts[1] +
+        "/" +
+        parts[2] +
+        "/" +
+        parts[0]
+    );
+
+}
+
+
+function escapeHTML(value) {
+
+    if (value === undefined ||
+        value === null) {
+
+        return "";
+
+    }
+
+    return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+
+}
+
+
+/* =========================================================
+   CLOSE MODAL BY CLICKING BACKGROUND
+   ========================================================= */
+
+document.getElementById(
+    "itemModal"
+).addEventListener(
+    "click",
+    event => {
+
+        if (
+            event.target.id ===
+            "itemModal"
+        ) {
+
+            closeModal();
+
+        }
+
+    }
+);
+
+</script>
+
 </body>
 </html>
