@@ -598,6 +598,29 @@ textarea:focus {
     overflow:hidden;
     background:white;
     margin-bottom:13px;
+    transition:background-color .2s ease,border-color .2s ease,box-shadow .2s ease;
+}
+
+.punch-card.priority-important {
+    background:#fff9db;
+    border-color:#d9b928;
+    box-shadow:0 2px 10px rgba(166,128,0,.12);
+}
+
+.punch-card.priority-critical {
+    background:#fff0f0;
+    border-color:#cf344d;
+    box-shadow:0 2px 10px rgba(200,16,46,.13);
+}
+
+.punch-card.priority-important .punch-card-header {
+    background:#ffef9c;
+    border-bottom-color:#d9b928;
+}
+
+.punch-card.priority-critical .punch-card-header {
+    background:#ffd3d8;
+    border-bottom-color:#cf344d;
 }
 
 .punch-card-header {
@@ -618,6 +641,30 @@ textarea:focus {
     font-weight:800;
 }
 
+ .collapse-btn {
+    width:30px;
+    height:30px;
+    padding:0;
+    border:1px solid var(--border-2);
+    border-radius:6px;
+    background:white;
+    color:var(--text-2);
+    font-size:15px;
+    line-height:1;
+}
+
+.collapse-btn:hover {
+    background:#f3f4f5;
+}
+
+.punch-card.collapsed .punch-card-header {
+    border-bottom:0;
+}
+
+.punch-card.collapsed .punch-card-body {
+    display:none;
+}
+  
 .punch-status {
     padding:5px 10px;
     border-radius:20px;
@@ -1841,6 +1888,7 @@ function addPunchItem(render = true) {
         trade:"",
         priority:"Standard",
         status:"Open",
+        collapsed:false,
         photos:[]
     });
 
@@ -1868,7 +1916,16 @@ function renderPunchItems() {
         const card =
             document.createElement("div");
 
-        card.className = "punch-card";
+      const priorityClass =
+            item.priority === "Important"
+                ? " priority-important"
+                : item.priority === "Critical"
+                ? " priority-critical"
+                : "";
+
+        const collapsedClass = item.collapsed ? " collapsed" : "";
+
+        card.className = `punch-card${priorityClass}${collapsedClass}`;
 
         const statusClass =
             item.status === "Complete"
@@ -1883,7 +1940,15 @@ function renderPunchItems() {
 
                 <div class="punch-card-title">
 
-                    <span>⌃</span>
+                      <button
+                        type="button"
+                        class="collapse-btn"
+                        onclick="togglePunchItem(${item.id})"
+                        aria-expanded="${!item.collapsed}"
+                        aria-label="${item.collapsed ? "Expand" : "Collapse"} item ${index + 1}"
+                        title="${item.collapsed ? "Expand item" : "Collapse item"}">
+                        ${item.collapsed ? "⌄" : "⌃"}
+                    </button>
 
                     <span>
                         ITEM ${String(index + 1).padStart(2,"0")}
@@ -1962,7 +2027,8 @@ function renderPunchItems() {
                                 oninput="updateItem(
                                     ${item.id},
                                     'item',
-                                    this.value
+                                this.value,
+                                    true
                                 )"
                             >
 
@@ -2122,6 +2188,21 @@ function updateItem(id,field,value,rerender=false) {
     if (rerender) {
         renderPunchItems();
     }
+
+}
+
+
+   function togglePunchItem(id) {
+
+    const item =
+        punchItems.find(x => x.id === id);
+
+    if (!item) return;
+
+    item.collapsed = !item.collapsed;
+
+    renderPunchItems();
+    saveDraft();
 
 }
 
