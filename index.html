@@ -640,6 +640,27 @@ textarea:focus {
     border-bottom-color:#cf344d;
 }
 
+ .priority-badge {
+    margin-left:auto;
+    padding:5px 9px;
+    border-radius:20px;
+    background:#eef1f4;
+    color:#59636e;
+    font-size:8px;
+    font-weight:800;
+    text-transform:uppercase;
+}
+
+.priority-important .priority-badge {
+    background:#7b6100;
+    color:white;
+}
+
+.priority-critical .priority-badge {
+    background:var(--red);
+    color:white;
+}
+  
 .punch-card-header {
     height:56px;
     padding:0 14px;
@@ -1144,6 +1165,32 @@ textarea:focus {
         height:175px;
     }
 
+   .punch-items-container,
+    .section-body {
+        padding:12px;
+    }
+
+    .punch-card-header {
+        height:auto;
+        min-height:58px;
+        padding:10px 12px;
+    }
+
+    .collapse-btn,
+    .delete-btn {
+        min-width:44px;
+        min-height:44px;
+    }
+
+    input,
+    select {
+        min-height:48px;
+    }
+
+    textarea {
+        min-height:112px;
+    }
+
     .details-grid {
         grid-template-columns:1fr;
     }
@@ -1212,7 +1259,77 @@ textarea:focus {
     }
 }
 
+   @media(max-width:520px) {
+    .app-header {
+        height:64px;
+    }
 
+    .page {
+        padding:12px 8px 32px;
+    }
+
+    .page-title-row {
+        margin-bottom:18px;
+    }
+
+    .page-title h1 {
+        font-size:25px;
+    }
+
+    .section-card {
+        border-radius:8px;
+        margin-bottom:14px;
+    }
+
+    .section-question {
+        padding-left:0;
+    }
+
+    .section-id {
+        min-width:0;
+    }
+
+    .punch-items-container {
+        padding:8px;
+    }
+
+    .photo-column,
+    .details-column {
+        padding:12px;
+    }
+
+    .photo-upload {
+        height:150px;
+    }
+
+    .photo-previews {
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .photo-preview {
+        height:72px;
+    }
+
+    .details-grid,
+    .details-bottom {
+        gap:12px;
+    }
+
+    .punch-card-title {
+        flex-wrap:wrap;
+    }
+
+    .priority-badge {
+        margin-left:0;
+    }
+
+    .review-actions .btn,
+    .add-item-btn {
+        min-height:50px;
+    }
+}
+
+   
 /* =========================================================
    PRINT REPORT
    ========================================================= */
@@ -1306,6 +1423,28 @@ textarea:focus {
         font-weight:800;
     }
 
+   .print-item.priority-important {
+        border-color:#b68f00;
+    }
+
+    .print-item.priority-important .print-item-head {
+        background:#ffef9c !important;
+        color:#4e3d00;
+        -webkit-print-color-adjust:exact;
+        print-color-adjust:exact;
+    }
+
+    .print-item.priority-critical {
+        border-color:#c8102e;
+    }
+
+    .print-item.priority-critical .print-item-head {
+        background:#c8102e !important;
+        color:white;
+        -webkit-print-color-adjust:exact;
+        print-color-adjust:exact;
+    }
+
     .print-item-body {
         padding:9px;
     }
@@ -1333,15 +1472,25 @@ textarea:focus {
     .print-photos {
         margin-top:8px;
         display:grid;
-        grid-template-columns:repeat(3,1fr);
+       grid-template-columns:repeat(4,1fr); 
         gap:6px;
     }
 
     .print-photos img {
         width:100%;
-        height:125px;
+      height:82px;  
         object-fit:cover;
         border:1px solid #bbb;
+           border-radius:3px;
+    }
+
+    .print-photos img:first-child {
+        grid-column:1 / -1;
+        height:240px;
+        object-fit:contain;
+        background:#f5f6f7;
+        padding:4px;
+        border-color:#8e969e;
     }
 
     .print-deadline {
@@ -1953,6 +2102,10 @@ function renderPunchItems() {
                         ${escapeHTML(item.status)}
                     </span>
 
+                   <span class="priority-badge">
+                        ${escapeHTML(item.priority)} priority
+                    </span> 
+
                 </div>
 
                 <button
@@ -2094,7 +2247,8 @@ function renderPunchItems() {
                                 onchange="updateItem(
                                     ${item.id},
                                     'priority',
-                                    this.value
+                                  this.value,
+                                    true   
                                 )">
 
                                 <option
@@ -2607,14 +2761,16 @@ function createReport() {
 
             const photos =
                 item.photos
-                .map(photo =>
-                    `<img src="${photo}">`
+                .map((photo, photoIndex) =>
+                    `<img src="${photo}" alt="Punch item ${index + 1} photo ${photoIndex + 1}">` 
                 )
                 .join("");
 
+           const priorityClass = `priority-${item.priority.toLowerCase()}`;
+
             itemsHTML += `
 
-                <div class="print-item">
+                <div class="print-item ${priorityClass}">
 
                     <div class="print-item-head">
 
@@ -2727,8 +2883,6 @@ function createReport() {
             ${printCell(
                 "Lot / Unit",
                 data.lot
-            )}
-
             )}
 
         </div>
