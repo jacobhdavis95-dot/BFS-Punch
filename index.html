@@ -1359,6 +1359,9 @@ textarea:focus {
         display:block;
         font-family:Arial,sans-serif;
         color:#111;
+       -webkit-print-color-adjust:exact;
+        print-color-adjust:exact;
+        forced-color-adjust:none;
     }
 
     .print-header {
@@ -1478,10 +1481,14 @@ textarea:focus {
 
     .print-photos img {
         width:100%;
-      height:82px;  
+         height:82px;
         object-fit:cover;
         border:1px solid #bbb;
-           border-radius:3px;
+       border-radius:3px;
+        filter:none !important;
+        -webkit-print-color-adjust:exact;
+        print-color-adjust:exact;
+        forced-color-adjust:none;
     }
 
     .print-photos img:first-child {
