@@ -301,6 +301,23 @@ a {
     background:var(--red);
 }
 
+.step.complete .step-number {
+    background:var(--green);
+}
+
+.step.complete .step-number::after {
+    content:"\2713";
+    font-size:13px;
+}
+
+.step.complete .step-number {
+    font-size:0;
+}
+
+.step.complete .step-title {
+    color:var(--green);
+}
+
 .step-title {
     font-size:10px;
     font-weight:800;
@@ -1367,19 +1384,6 @@ textarea:focus {
 
         </div>
 
-        <div class="header-right">
-
-            <div class="saved-badge">
-                <div class="saved-check">✓</div>
-                <span id="saveStatus">Draft saved</span>
-            </div>
-
-            <div class="avatar">
-                MK
-            </div>
-
-        </div>
-
     </div>
 </header>
 
@@ -1397,7 +1401,7 @@ textarea:focus {
 
             <div class="steps-card">
 
-                <div class="step active">
+                <div class="step active" data-step="project">
                     <div class="step-number">01</div>
                     <div>
                         <div class="step-title">
@@ -1409,7 +1413,7 @@ textarea:focus {
                     </div>
                 </div>
 
-                <div class="step">
+                 <div class="step" data-step="items">
                     <div class="step-number">02</div>
                     <div>
                         <div class="step-title">
@@ -1421,7 +1425,7 @@ textarea:focus {
                     </div>
                 </div>
 
-                <div class="step">
+                <div class="step" data-step="deadline">
                     <div class="step-number">03</div>
                     <div>
                         <div class="step-title">
@@ -1433,7 +1437,7 @@ textarea:focus {
                     </div>
                 </div>
 
-                <div class="step">
+                <div class="step" data-step="review">
                     <div class="step-number">04</div>
                     <div>
                         <div class="step-title">
@@ -1519,7 +1523,7 @@ textarea:focus {
                 </p>
 
                 <div class="help-link">
-                    BFS Raleigh Install Services →
+                Contact Jacob Davis with BFS 
                 </div>
             </div>
 
@@ -1609,18 +1613,6 @@ textarea:focus {
                         <label>Customer / builder</label>
                         <input id="customer"
                                placeholder="Customer or builder">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Project address</label>
-                        <input id="address"
-                               placeholder="Street address, city, state">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Job number (optional)</label>
-                        <input id="jobNumber"
-                               placeholder="Optional">
                     </div>
 
                 </div>
@@ -1757,9 +1749,14 @@ textarea:focus {
                         ♲ &nbsp; Clear draft
                     </button>
 
-                    <button class="btn btn-primary"
+                   <button class="btn btn-secondary"
                             onclick="createReport()">
-                        ▣ &nbsp; Create punch report &nbsp; →
+                      ▣ &nbsp; Preview report
+                    </button>
+
+                    <button class="btn btn-primary"
+                            onclick="markReadyToSend()">
+                        ✓ &nbsp; Ready to send &nbsp; →  
                     </button>
 
                 </div>
@@ -1776,10 +1773,7 @@ textarea:focus {
                         and share a professional PDF report.
                     </p>
 
-                    <a href="#"
-                       onclick="createReport(); return false;">
-                        Preview report →
-                    </a>
+                 <a href="#" onclick="createReport(); return false;">Preview report →</a>   
                 </div>
 
             </div>
@@ -1834,7 +1828,7 @@ textarea:focus {
 const STORAGE_KEY = "bfsRaleighPunchV3";
 
 let punchItems = [];
-
+let reportReady = false;
 
 /* =========================================================
    INITIALIZATION
@@ -1865,6 +1859,7 @@ function setToday() {
         now.toLocaleDateString(
             "en-US",
             {
+               weekday:"long",
                 month:"long",
                 day:"numeric",
                 year:"numeric"
@@ -2420,7 +2415,28 @@ function updateSummary() {
         deadline
         ? formatDate(deadline)
         : "—";
+  updateWorkflow();
 
+}
+
+function updateWorkflow() {
+    const projectComplete = ["manager", "community", "lot", "customer"]
+        .every(id => document.getElementById(id).value.trim());
+    const itemsComplete = punchItems.length > 0 && punchItems.every(item =>
+        item.item.trim() && item.description.trim() && item.status === "Complete"
+    );
+    const deadlineComplete = Boolean(document.getElementById("deadline").value);
+    const completion = { project: projectComplete, items: itemsComplete, deadline: deadlineComplete, review: reportReady };
+    const order = ["project", "items", "deadline", "review"];
+    const active = order.find(step => !completion[step]) || "review";
+
+    document.querySelectorAll(".step[data-step]").forEach(step => {
+        const name = step.dataset.step;
+        step.classList.toggle("complete", completion[name]);
+        step.classList.toggle("active", name === active && !completion[name]);
+    });
+
+    document.getElementById("summaryStatus").textContent = reportReady ? "READY TO SEND" : "DRAFT";
 }
 
 
@@ -2444,19 +2460,14 @@ function getProjectData() {
         customer:
             document.getElementById("customer").value,
 
-        address:
-            document.getElementById("address").value,
-
-        jobNumber:
-            document.getElementById("jobNumber").value,
-
         deadline:
             document.getElementById("deadline").value,
 
         notes:
             document.getElementById("notes").value,
 
-        punchItems
+        punchItems,
+        reportReady
 
     };
 
@@ -2474,22 +2485,11 @@ function saveDraft() {
             )
         );
 
-        const status =
-            document.getElementById("saveStatus");
-
-        status.textContent =
-            "Draft saved";
-
         updateSummary();
 
     } catch(error) {
 
         console.error(error);
-
-        document.getElementById(
-            "saveStatus"
-        ).textContent =
-            "Storage full";
 
     }
 
@@ -2512,14 +2512,13 @@ function loadDraft() {
         setValue("community",data.community);
         setValue("lot",data.lot);
         setValue("customer",data.customer);
-        setValue("address",data.address);
-        setValue("jobNumber",data.jobNumber);
         setValue("deadline",data.deadline);
         setValue("notes",data.notes);
 
         punchItems =
             data.punchItems || [];
 
+      reportReady = Boolean(data.reportReady); 
     } catch(error) {
 
         console.error(error);
@@ -2540,8 +2539,7 @@ function setValue(id,value) {
 function bindAutoSave() {
 
     document.querySelectorAll(
-        "#manager,#community,#lot,#customer," +
-        "#address,#jobNumber,#deadline,#notes"
+   "#manager,#community,#lot,#customer,#deadline,#notes"
     ).forEach(element => {
 
         element.addEventListener(
@@ -2576,8 +2574,7 @@ function clearDraft() {
     localStorage.removeItem(STORAGE_KEY);
 
     document.querySelectorAll(
-        "#manager,#community,#lot,#customer," +
-        "#address,#jobNumber,#deadline,#notes"
+    "#manager,#community,#lot,#customer,#deadline,#notes"
     ).forEach(element => {
 
         element.value = "";
@@ -2585,7 +2582,7 @@ function clearDraft() {
     });
 
     punchItems = [];
-
+ reportReady = false;
     addPunchItem(false);
 
     renderPunchItems();
@@ -2732,14 +2729,6 @@ function createReport() {
                 data.lot
             )}
 
-            ${printCell(
-                "Project Address",
-                data.address
-            )}
-
-            ${printCell(
-                "Job Number",
-                data.jobNumber
             )}
 
         </div>
@@ -2777,6 +2766,14 @@ function createReport() {
     );
 
 }
+
+   function markReadyToSend() {
+    reportReady = true;
+    saveDraft();
+    document.querySelector(".review-main h3").textContent = "Ready to send ✓";
+    document.querySelector(".btn-primary").textContent = "✓  Ready to send";
+}
+
 
 
 /* =========================================================
