@@ -119,53 +119,15 @@ a {
 .bfs-brand {
     display:flex;
     align-items:center;
-    gap:10px;
-}
-
-.logo-mark {
-    width:51px;
-    height:51px;
-    background:var(--red);
-    border-radius:2px;
-    position:relative;
-    overflow:hidden;
-}
-
-.logo-mark::before {
-    content:"";
-    position:absolute;
-    width:12px;
-    height:74px;
+    padding:7px 10px;
     background:white;
-    left:22px;
-    top:-11px;
-    transform:rotate(-42deg);
+    border-radius:4px;
 }
 
-.logo-mark::after {
-    content:"";
-    position:absolute;
-    width:13px;
-    height:42px;
-    background:white;
-    left:9px;
-    top:7px;
-    transform:rotate(33deg);
-    border-radius:10px;
-}
-
-.brand-words {
-    line-height:.84;
-    font-weight:800;
-    font-size:22px;
-    letter-spacing:-1px;
-}
-
-.brand-words small {
+.bfs-logo {
     display:block;
-    font-size:17px;
-    font-weight:500;
-    letter-spacing:-.5px;
+  width:178px;
+    height:auto;  
 }
 
 .header-divider {
@@ -1101,17 +1063,8 @@ textarea:focus {
         padding:9px;
     }
 
-    .brand-words {
-        font-size:17px;
-    }
-
-    .brand-words small {
-        font-size:13px;
-    }
-
-    .logo-mark {
-        width:43px;
-        height:43px;
+   .bfs-logo {
+        width:145px;
     }
 
     .page-title-row {
@@ -1374,13 +1327,10 @@ textarea:focus {
     }
 
     .print-brand {
-        font-size:23px;
-        font-weight:800;
-        color:#0b2a61;
-    }
-
-    .print-brand span {
-        color:#c8102e;
+      display:block;
+        width:185px;
+        height:auto;
+        margin-bottom:6px;
     }
 
     .print-title {
@@ -1524,13 +1474,10 @@ textarea:focus {
         <div class="header-left">
 
            <div class="bfs-brand">
-    <div class="logo-mark"></div>
-
-    <div class="brand-words">
-        Builders
-        <small>FirstSource</small>
-    </div>
-</div>
+  <img class="bfs-logo"
+                    src="Builders_FirstSource_Logo.png"
+                    alt="Builders FirstSource">
+           </div>
 
             <div class="header-divider"></div>
 
@@ -2756,7 +2703,7 @@ function clearDraft() {
    CREATE PDF / PRINT REPORT
    ========================================================= */
 
-function createReport() {
+async function createReport() {
 
     const data =
         getProjectData();
@@ -2853,10 +2800,9 @@ function createReport() {
         <div class="print-header">
 
             <div>
-                <div class="print-brand">
-                    <span>Builders</span>
-                    FirstSource
-                </div>
+       <img class="print-brand"
+                     src="Builders_FirstSource_Logo.png"
+                     alt="Builders FirstSource">         
 
                 <div class="print-title">
                     RALEIGH INSTALL SERVICES
@@ -2921,10 +2867,21 @@ function createReport() {
 
     `;
 
-    setTimeout(
-        () => window.print(),
-        300
-    );
+    const reportImages = [
+        ...document.querySelectorAll("#printReport img")
+    ];
+
+    await Promise.all(reportImages.map(image => {
+        if (image.complete) return Promise.resolve();
+
+        return new Promise(resolve => {
+            image.addEventListener("load", resolve, { once:true });
+            image.addEventListener("error", resolve, { once:true });
+        });
+    }));
+
+    window.print();
+
 
 }
 
